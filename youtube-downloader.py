@@ -22,8 +22,15 @@ def download_videos_from_item_list(item_list, audio, days):
         if item.startswith('playlist:'):
             command = (
                 f"yt-dlp --break-on-reject "
-                f"{item[9:]} "
+                f"{item.split(':', 1)[-1]} "
                 f"--output videos/{item}/%(title)s.%(ext)s "
+                "--download-archive downloaded_already.txt"
+            )            
+        elif item.startswith('full:'):
+            command = (
+                f"yt-dlp --break-on-reject "
+                f"https://www.youtube.com/@{item.split(':', 1)[-1]} "
+                f"--output videos/full_dl/{item.split(':', 1)[-1]}/%(title)s.%(ext)s "
                 "--download-archive downloaded_already.txt"
             )            
         else:
